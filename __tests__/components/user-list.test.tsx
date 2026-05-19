@@ -2,19 +2,19 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import { UserList } from '@/components/users/user-list'
 import type { User, Post, Todo } from '@/types'
 
-jest.mock('@/services/users/getUsers', () => ({
+jest.mock('@/services/users/useGetUsers', () => ({
   useGetUsers: jest.fn(),
 }))
-jest.mock('@/services/posts/getPosts', () => ({
+jest.mock('@/services/posts/useGetPosts', () => ({
   useGetPosts: jest.fn(),
 }))
-jest.mock('@/services/todos/getTodos', () => ({
+jest.mock('@/services/todos/useGetTodos', () => ({
   useGetTodos: jest.fn(),
 }))
 
-import { useGetUsers } from '@/services/users/getUsers'
-import { useGetPosts } from '@/services/posts/getPosts'
-import { useGetTodos } from '@/services/todos/getTodos'
+import { useGetUsers } from '@/services/users/useGetUsers'
+import { useGetPosts } from '@/services/posts/useGetPosts'
+import { useGetTodos } from '@/services/todos/useGetTodos'
 
 const mockUsers: User[] = [
   {
