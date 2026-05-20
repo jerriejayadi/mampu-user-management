@@ -4,7 +4,7 @@ import { getUserById } from '@/services/users/getUserById'
 import { getPostsByUserId } from '@/services/posts/getPostsByUserId'
 import { getTodosByUserId } from '@/services/todos/getTodosByUserId'
 import { ProfileSidebar } from '@/components/user-detail/profile-sidebar'
-import { PostsPanel } from '@/components/user-detail/posts-panel'
+import { ContentTabs } from '@/components/user-detail/content-tabs'
 import Link from 'next/link'
 
 type Props = {
@@ -44,9 +44,9 @@ export default async function UserDetailPage({ params }: Props) {
         ← Back to list
       </Link>
       <div className="flex flex-col lg:flex-row gap-6 mt-4">
-        <ProfileSidebar user={user} todos={todos} />
+        <ProfileSidebar user={user} />
         <div className="flex-1">
-          <PostsPanel posts={posts} />
+          <ContentTabs posts={posts} todos={todos} />
         </div>
       </div>
     </div>

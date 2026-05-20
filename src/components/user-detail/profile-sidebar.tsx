@@ -1,17 +1,15 @@
 import { Card, CardContent } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
-import { TodosSummary } from './todos-summary'
-import type { User, Todo } from '@/types'
+import type { User } from '@/types'
 
 interface Props {
   user: User
-  todos: Todo[]
 }
 
-export function ProfileSidebar({ user, todos }: Props) {
+export function ProfileSidebar({ user }: Props) {
   return (
     <Card className="w-full lg:w-72 shrink-0 h-fit">
-      <CardContent className="pt-6 flex flex-col gap-5">
+      <CardContent className=" flex flex-col gap-5">
         <div>
           <h1 className="text-xl font-bold">{user.name}</h1>
           <p className="text-sm text-muted-foreground">@{user.username}</p>
@@ -47,12 +45,6 @@ export function ProfileSidebar({ user, todos }: Props) {
           </p>
         </div>
 
-        <Separator />
-
-        <div>
-          <p className="text-xs font-semibold uppercase text-muted-foreground mb-2">Todos</p>
-          <TodosSummary todos={todos} />
-        </div>
       </CardContent>
     </Card>
   )
