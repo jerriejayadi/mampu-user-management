@@ -62,9 +62,9 @@ it('renders users with activity signals', () => {
   render(<UserList />)
   expect(screen.getByText('Leanne Graham')).toBeInTheDocument()
   expect(screen.getByText('Ervin Howell')).toBeInTheDocument()
-  expect(screen.getByText('2 posts')).toBeInTheDocument()
-  expect(screen.getByText('1 done')).toBeInTheDocument()
-  expect(screen.getByText('1 pending')).toBeInTheDocument()
+  expect(screen.getByText(/2 posts/)).toBeInTheDocument()
+  expect(screen.getByText('1✓')).toBeInTheDocument()
+  expect(screen.getByText('1⏳')).toBeInTheDocument()
 })
 
 it('filters by search query', () => {

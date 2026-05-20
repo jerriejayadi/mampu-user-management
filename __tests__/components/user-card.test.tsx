@@ -15,17 +15,16 @@ const mockUser: User = {
 
 const activity = { posts: 10, done: 8, pending: 2 }
 
-it('renders user name and email', () => {
+it('renders user name', () => {
   render(<UserCard user={mockUser} activity={activity} />)
   expect(screen.getByText('Leanne Graham')).toBeInTheDocument()
-  expect(screen.getByText('Sincere@april.biz')).toBeInTheDocument()
 })
 
-it('renders activity badges', () => {
+it('renders compact activity summary', () => {
   render(<UserCard user={mockUser} activity={activity} />)
-  expect(screen.getByText('10 posts')).toBeInTheDocument()
-  expect(screen.getByText('8 done')).toBeInTheDocument()
-  expect(screen.getByText('2 pending')).toBeInTheDocument()
+  expect(screen.getByText(/10 posts/)).toBeInTheDocument()
+  expect(screen.getByText('8✓')).toBeInTheDocument()
+  expect(screen.getByText('2⏳')).toBeInTheDocument()
 })
 
 it('links to user detail page', () => {

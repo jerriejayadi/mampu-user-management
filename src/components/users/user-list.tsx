@@ -1,9 +1,9 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import { useGetUsers } from '@/services/users/getUsers'
-import { useGetPosts } from '@/services/posts/getPosts'
-import { useGetTodos } from '@/services/todos/getTodos'
+import { useGetUsers } from '@/services/users/useGetUsers'
+import { useGetPosts } from '@/services/posts/useGetPosts'
+import { useGetTodos } from '@/services/todos/useGetTodos'
 import { UserCard } from './user-card'
 import { UserFilters, type SortOption, type FilterOption } from './user-filters'
 import { UserListSkeleton } from './skeletons'
