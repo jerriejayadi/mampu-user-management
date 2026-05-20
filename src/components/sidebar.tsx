@@ -9,7 +9,7 @@ import { cn } from '@/lib/utils'
 
 export function Sidebar() {
   const pathname = usePathname()
-  const { theme, setTheme } = useTheme()
+  const { setTheme } = useTheme()
 
   return (
     <aside className="flex flex-col items-center w-14 min-h-screen py-4 gap-4 border-r border-border bg-card shrink-0">
@@ -34,10 +34,13 @@ export function Sidebar() {
         variant="ghost"
         size="icon"
         className="w-9 h-9"
-        onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+        onClick={() => setTheme(
+          document.documentElement.classList.contains('dark') ? 'light' : 'dark'
+        )}
         title="Toggle theme"
       >
-        {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+        <Sun size={16} className="hidden dark:block" />
+        <Moon size={16} className="dark:hidden" />
       </Button>
     </aside>
   )
