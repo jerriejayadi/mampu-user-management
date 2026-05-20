@@ -9,6 +9,7 @@ A submission for mampu.io Frontend Engineer Technical Test: A user management sy
 - **Data Fetching:** native `fetch` + SWR
 - **Testing:** Jest + React Testing Library
 - **Theme:** next-themes (dark/light/system)
+- **AI Assistant:** Claude (Anthropic) — used for design, planning, and implementation via Claude Code
 
 ## Getting Started
 

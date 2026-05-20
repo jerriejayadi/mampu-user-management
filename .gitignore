@@ -25,6 +25,14 @@
 .superpowers/
 *.pem
 
+# playwright
+/test-results/
+/playwright-report/
+/.playwright-mcp/
+
+# claude code
+/.claude/
+
 # debug
 npm-debug.log*
 yarn-debug.log*
