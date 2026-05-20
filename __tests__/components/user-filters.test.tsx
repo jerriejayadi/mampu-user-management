@@ -6,6 +6,7 @@ const defaultProps = {
   sort: 'name' as const,
   filter: 'all' as const,
   onSearchChange: jest.fn(),
+  onSearchSubmit: jest.fn(),
   onSortChange: jest.fn(),
   onFilterChange: jest.fn(),
 }

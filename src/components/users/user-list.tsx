@@ -1,18 +1,47 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
+import { useRouter, usePathname, useSearchParams } from 'next/navigation'
 import { useGetUsers } from '@/services/users/useGetUsers'
 import { useGetPosts } from '@/services/posts/useGetPosts'
 import { useGetTodos } from '@/services/todos/useGetTodos'
+import { useDebounce } from '@/hooks/useDebounce'
 import { UserCard } from './user-card'
 import { UserFilters, type SortOption, type FilterOption } from './user-filters'
 import { UserListSkeleton } from './skeletons'
 import type { ActivityMap } from '@/types'
 
 export function UserList() {
-  const [search, setSearch] = useState('')
-  const [sort, setSort] = useState<SortOption>('name')
-  const [filter, setFilter] = useState<FilterOption>('all')
+  const router = useRouter()
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+
+  const [search, setSearch] = useState(searchParams.get('q') ?? '')
+  const [appliedSearch, setAppliedSearch] = useState(searchParams.get('q') ?? '')
+  const [sort, setSort] = useState<SortOption>(
+    (searchParams.get('sort') as SortOption) ?? 'name'
+  )
+  const [filter, setFilter] = useState<FilterOption>(
+    (searchParams.get('filter') as FilterOption) ?? 'all'
+  )
+
+  const debouncedSearch = useDebounce(search, 300)
+
+  useEffect(() => {
+    setAppliedSearch(debouncedSearch)
+  }, [debouncedSearch])
+
+  function applySearch() {
+    setAppliedSearch(search)
+  }
+
+  useEffect(() => {
+    const params = new URLSearchParams()
+    if (appliedSearch) params.set('q', appliedSearch)
+    if (sort !== 'name') params.set('sort', sort)
+    if (filter !== 'all') params.set('filter', filter)
+    router.replace(`${pathname}?${params.toString()}`)
+  }, [appliedSearch, sort, filter]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const { data: users, isLoading: usersLoading, error: usersError } = useGetUsers()
   const { data: posts } = useGetPosts()
@@ -37,8 +66,8 @@ export function UserList() {
     if (!users) return []
     let result = [...users]
 
-    if (search.trim()) {
-      const q = search.toLowerCase()
+    if (appliedSearch.trim()) {
+      const q = appliedSearch.toLowerCase()
       result = result.filter(
         (u) => u.name.toLowerCase().includes(q) || u.email.toLowerCase().includes(q)
       )
@@ -57,7 +86,7 @@ export function UserList() {
     )
 
     return result
-  }, [users, search, sort, filter, activityMap])
+  }, [users, appliedSearch, sort, filter, activityMap])
 
   if (usersLoading) return <UserListSkeleton />
 
@@ -72,13 +101,14 @@ export function UserList() {
         sort={sort}
         filter={filter}
         onSearchChange={setSearch}
+        onSearchSubmit={applySearch}
         onSortChange={setSort}
         onFilterChange={setFilter}
       />
       {filtered.length === 0 ? (
         <p className="text-muted-foreground text-center py-12">No users match your filters.</p>
       ) : (
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col">
           {filtered.map((user) => (
             <UserCard
               key={user.id}

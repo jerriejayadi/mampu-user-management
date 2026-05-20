@@ -1,6 +1,12 @@
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen, fireEvent, act } from '@testing-library/react'
 import { UserList } from '@/components/users/user-list'
 import type { User, Post, Todo } from '@/types'
+
+jest.mock('next/navigation', () => ({
+  useSearchParams: jest.fn(() => new URLSearchParams()),
+  useRouter: jest.fn(() => ({ replace: jest.fn() })),
+  usePathname: jest.fn(() => '/users'),
+}))
 
 jest.mock('@/services/users/useGetUsers', () => ({
   useGetUsers: jest.fn(),
@@ -56,7 +62,14 @@ function setMocks(overrides: { users?: object; posts?: object; todos?: object } 
   })
 }
 
-beforeEach(() => setMocks())
+beforeEach(() => {
+  setMocks()
+  jest.useFakeTimers()
+})
+
+afterEach(() => {
+  jest.useRealTimers()
+})
 
 it('renders users with activity signals', () => {
   render(<UserList />)
@@ -67,9 +80,10 @@ it('renders users with activity signals', () => {
   expect(screen.getByText('1⏳')).toBeInTheDocument()
 })
 
-it('filters by search query', () => {
+it('filters by search query after debounce', () => {
   render(<UserList />)
   fireEvent.change(screen.getByPlaceholderText(/search/i), { target: { value: 'Ervin' } })
+  act(() => { jest.advanceTimersByTime(300) })
   expect(screen.queryByText('Leanne Graham')).not.toBeInTheDocument()
   expect(screen.getByText('Ervin Howell')).toBeInTheDocument()
 })
@@ -103,5 +117,21 @@ it('shows error state', () => {
 it('shows empty state when filters remove all results', () => {
   render(<UserList />)
   fireEvent.change(screen.getByPlaceholderText(/search/i), { target: { value: 'zzznomatch' } })
+  act(() => { jest.advanceTimersByTime(300) })
   expect(screen.getByText(/no users match/i)).toBeInTheDocument()
+})
+
+it('sorts by email', () => {
+  render(<UserList />)
+  fireEvent.change(screen.getByLabelText(/sort/i), { target: { value: 'email' } })
+  const names = screen.getAllByTitle(/Graham|Howell/)
+  expect(names[0]).toHaveAttribute('title', 'Shanna@melissa.tv' < 'Sincere@april.biz' ? 'Ervin Howell' : 'Leanne Graham')
+})
+
+it('applies search immediately on Search button click', () => {
+  render(<UserList />)
+  fireEvent.change(screen.getByPlaceholderText(/search/i), { target: { value: 'Ervin' } })
+  fireEvent.click(screen.getByRole('button', { name: /search/i }))
+  expect(screen.queryByText('Leanne Graham')).not.toBeInTheDocument()
+  expect(screen.getByText('Ervin Howell')).toBeInTheDocument()
 })

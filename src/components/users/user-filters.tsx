@@ -1,4 +1,5 @@
 import { Input } from '@/components/ui/input'
+import { Search } from 'lucide-react'
 
 export type SortOption = 'name' | 'email'
 export type FilterOption = 'all' | 'has-pending' | 'no-completed'
@@ -8,19 +9,31 @@ interface Props {
   sort: SortOption
   filter: FilterOption
   onSearchChange: (value: string) => void
+  onSearchSubmit: () => void
   onSortChange: (value: SortOption) => void
   onFilterChange: (value: FilterOption) => void
 }
 
-export function UserFilters({ search, sort, filter, onSearchChange, onSortChange, onFilterChange }: Props) {
+export function UserFilters({ search, sort, filter, onSearchChange, onSearchSubmit, onSortChange, onFilterChange }: Props) {
   return (
     <div className="flex flex-col sm:flex-row gap-3">
-      <Input
-        placeholder="Search by name or email..."
-        value={search}
-        onChange={(e) => onSearchChange(e.target.value)}
-        className="flex-1"
-      />
+      <div className="relative flex-1">
+        <Input
+          placeholder="Search by name or email..."
+          value={search}
+          onChange={(e) => onSearchChange(e.target.value)}
+          onKeyDown={(e) => e.key === 'Enter' && onSearchSubmit()}
+          className="pr-9"
+        />
+        <button
+          type="button"
+          onClick={onSearchSubmit}
+          className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+          aria-label="Search"
+        >
+          <Search size={16} />
+        </button>
+      </div>
       <div className="flex gap-2">
         <div className="flex flex-col gap-1">
           <label htmlFor="sort-select" className="sr-only">Sort</label>
