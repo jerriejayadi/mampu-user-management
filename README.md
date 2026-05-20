@@ -99,5 +99,4 @@ src/
 - Mobile filter drawer for compact filter UX
 - Server-side search/pagination if API supports it
 - Virtualized lists (react-virtual) for large datasets
-- Error Boundary for user detail route
 - `generateStaticParams` for full SSG on detail pages
