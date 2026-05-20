@@ -12,7 +12,7 @@ export function Sidebar() {
   const { setTheme } = useTheme()
 
   return (
-    <aside className="flex flex-col items-center w-14 min-h-screen py-4 gap-4 border-r border-border bg-card shrink-0">
+    <aside className="flex flex-col items-center w-14 h-screen sticky top-0 py-4 gap-4 border-r border-border bg-card shrink-0">
       <span className="text-primary font-bold text-sm">M</span>
 
       <nav className="flex flex-col gap-2 flex-1">

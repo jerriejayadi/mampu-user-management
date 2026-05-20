@@ -121,6 +121,14 @@ it('shows empty state when filters remove all results', () => {
   expect(screen.getByText(/no users match/i)).toBeInTheDocument()
 })
 
+it('sorts by most pending todos', () => {
+  render(<UserList />)
+  fireEvent.change(screen.getByLabelText(/sort/i), { target: { value: 'pending' } })
+  const items = screen.getAllByRole('link')
+  // user 2 has 2 pending, user 1 has 1 pending — user 2 should be first
+  expect(items[0]).toHaveAttribute('href', '/users/2')
+})
+
 it('sorts by email', () => {
   render(<UserList />)
   fireEvent.change(screen.getByLabelText(/sort/i), { target: { value: 'email' } })

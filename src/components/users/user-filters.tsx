@@ -1,7 +1,7 @@
 import { Input } from '@/components/ui/input'
 import { Search } from 'lucide-react'
 
-export type SortOption = 'name' | 'email'
+export type SortOption = 'name' | 'email' | 'pending'
 export type FilterOption = 'all' | 'has-pending' | 'no-completed'
 
 interface Props {
@@ -46,6 +46,7 @@ export function UserFilters({ search, sort, filter, onSearchChange, onSearchSubm
           >
             <option value="name">Sort: Name</option>
             <option value="email">Sort: Email</option>
+            <option value="pending">Sort: Most Pending</option>
           </select>
         </div>
         <div className="flex flex-col gap-1">

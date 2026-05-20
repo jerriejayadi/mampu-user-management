@@ -79,11 +79,11 @@ export function UserList() {
       result = result.filter((u) => (activityMap[u.id]?.done ?? 0) === 0)
     }
 
-    result.sort((a, b) =>
-      sort === 'name'
-        ? a.name.localeCompare(b.name)
-        : a.email.localeCompare(b.email)
-    )
+    result.sort((a, b) => {
+      if (sort === 'email') return a.email.localeCompare(b.email)
+      if (sort === 'pending') return (activityMap[b.id]?.pending ?? 0) - (activityMap[a.id]?.pending ?? 0)
+      return a.name.localeCompare(b.name)
+    })
 
     return result
   }, [users, appliedSearch, sort, filter, activityMap])
