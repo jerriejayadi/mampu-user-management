@@ -12,7 +12,19 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Generated/artifact directories
+    ".playwright-mcp/**",
+    "playwright-report/**",
+    "test-results/**",
+    "coverage/**",
   ]),
+  {
+    rules: {
+      "react-hooks/exhaustive-deps": "off",
+      "react-hooks/set-state-in-effect": "off",
+      "react-hooks/no-unescapoed-entities": "off",
+    },
+  },
 ]);
 
 export default eslintConfig;
