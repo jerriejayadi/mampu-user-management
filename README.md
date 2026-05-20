@@ -27,9 +27,14 @@ npm run build && npm start
 ## Running Tests
 
 ```bash
-npm test                    # Run all tests
+npm test                    # Run unit tests (Jest + RTL)
 npm test -- --coverage      # Run with coverage report
+npm run e2e                 # Run E2E tests (Playwright, requires build)
+npm run e2e:ui              # Playwright UI mode
 ```
+
+Unit tests: 28 tests across 8 suites, ~94% coverage.
+E2E tests: 27 tests covering list, navigation, user detail, not-found, and theme toggle.
 
 ## Features
 
@@ -94,4 +99,5 @@ src/
 - Mobile filter drawer for compact filter UX
 - Server-side search/pagination if API supports it
 - Virtualized lists (react-virtual) for large datasets
-- E2E tests with Playwright
+- Error Boundary for user detail route
+- `generateStaticParams` for full SSG on detail pages
