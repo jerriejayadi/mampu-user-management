@@ -24,7 +24,7 @@ it('fetches user by id', async () => {
     json: async () => mockUser,
   } as Response)
   const user = await getUserById(1)
-  expect(fetch).toHaveBeenCalledWith('https://jsonplaceholder.typicode.com/users/1')
+  expect(fetch).toHaveBeenCalledWith('https://jsonplaceholder.typicode.com/users/1', { next: { revalidate: 60 } })
   expect(user).toEqual(mockUser)
 })
 
