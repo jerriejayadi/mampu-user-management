@@ -41,7 +41,7 @@ export function UserList() {
     if (sort !== 'name') params.set('sort', sort)
     if (filter !== 'all') params.set('filter', filter)
     router.replace(`${pathname}?${params.toString()}`)
-  }, [appliedSearch, sort, filter]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [appliedSearch, sort, filter]) 
 
   const { data: users, isLoading: usersLoading, error: usersError } = useGetUsers()
   const { data: posts } = useGetPosts()
